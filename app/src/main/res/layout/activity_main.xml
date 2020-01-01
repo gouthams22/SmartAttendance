@@ -34,12 +34,18 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <EditText
+        <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Username"
-            android:inputType="text"
-            android:layout_weight="2" />
+            android:layout_weight="2">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
 
         <View
             android:layout_width="0dp"
@@ -58,12 +64,18 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <EditText
+        <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="text"
-            android:layout_weight="2" />
+            android:layout_weight="2">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
 
         <View
             android:layout_width="0dp"
@@ -72,6 +84,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
