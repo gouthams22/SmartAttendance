@@ -32,6 +32,7 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:id="@+id/button_mark"
                     android:layout_weight="1"
                     android:background="@drawable/home_button"
                     android:drawableTop="@drawable/mark_icon"
@@ -41,6 +42,7 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:id="@+id/button_update"
                     android:layout_weight="1"
                     android:background="@drawable/home_button"
                     android:drawableTop="@drawable/update_icon"
