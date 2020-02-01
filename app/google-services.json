@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "303248133456",
+    "firebase_url": "https://smart-attendance-f3adc.firebaseio.com",
+    "project_id": "smart-attendance-f3adc",
+    "storage_bucket": "smart-attendance-f3adc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303248133456:android:b9176b46ee829ed43fb055",
+        "android_client_info": {
+          "package_name": "com.example.android.smartattendence"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303248133456-b55h7grh2im25lq0lddfub6d9f7s11ca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.smartattendence",
+            "certificate_hash": "6679962c9bb57b062b5682c9d551cc63f1adeae5"
+          }
+        },
+        {
+          "client_id": "303248133456-b27j8q178rq0sklb94tj8f4912gc8c3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIEjnNV-bF8bs2bVAW15VcjmkNc_En74Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303248133456-b27j8q178rq0sklb94tj8f4912gc8c3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
