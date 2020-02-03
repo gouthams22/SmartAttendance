@@ -20,11 +20,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:fontFamily="monospace"
-            android:textSize="36sp"
             android:layout_marginBottom="30dp"
-            android:text="Registration" />
+            android:fontFamily="monospace"
+            android:text="Registration"
+            android:textColor="@android:color/white"
+            android:textSize="36sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

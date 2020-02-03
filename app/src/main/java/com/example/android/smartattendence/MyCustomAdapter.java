@@ -71,7 +71,9 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
             public void onClick(View v) {
 
                 if (button.isChecked()) {
-                    conn.onCheckedBox(nameList.get(position), position);
+                    conn.onCheckedBox(nameList.get(position), position, "true");
+                } else {
+                    conn.onCheckedBox(nameList.get(position), position, "false");
                 }
             }
         });

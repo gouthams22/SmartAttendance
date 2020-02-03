@@ -34,7 +34,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
     }
 
     @Override
-    public void onCheckedBox(String s, int pos) {
+    public void onCheckedBox(String s, int pos, String t) {
         Toast.makeText(MainUpdate.this, s + pos, Toast.LENGTH_LONG).show();
     }
 }

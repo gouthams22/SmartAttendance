@@ -15,14 +15,16 @@
         android:layout_margin="10dp"
         android:text="Welcome"
         android:textColor="@android:color/white" />
+
     <Button
         android:id="@+id/sign_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Out"
-        android:layout_margin="16dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="Sign Out" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,9 +48,9 @@
                 android:layout_weight="1">
 
                 <Button
+                    android:id="@+id/button_mark"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/button_mark"
                     android:layout_weight="1"
                     android:background="@drawable/home_button"
                     android:drawableTop="@drawable/mark_icon"
@@ -56,9 +58,9 @@
                     android:textColor="@android:color/white" />
 
                 <Button
+                    android:id="@+id/button_update"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/button_update"
                     android:layout_weight="1"
                     android:background="@drawable/home_button"
                     android:drawableTop="@drawable/update_icon"

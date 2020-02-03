@@ -12,17 +12,17 @@
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="20dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginRight="20dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:paddingTop="24dp"
         android:paddingLeft="24dp"
+        android:paddingTop="24dp"
         android:paddingRight="24dp"
         android:textColorHint="@android:color/white">
 
@@ -40,9 +40,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:paddingBottom="24dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
+        android:paddingBottom="24dp"
         android:textColorHint="@android:color/white">
 
         <EditText
@@ -56,9 +56,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ListView
+        android:id="@+id/list1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/list1" />
+        android:layout_height="wrap_content" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/update_button"
