@@ -62,8 +62,8 @@
         <ProgressBar
             android:id="@+id/load"
             android:layout_width="wrap_content"
-            android:layout_gravity="end"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -90,8 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:text="Remember credentials"
-            android:visibility="gone"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/link_forget"
@@ -102,6 +102,7 @@
             android:text="Forgot password?"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
+
         <TextView
             android:id="@+id/link_signup"
             android:layout_width="fill_parent"

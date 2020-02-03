@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+        /*
         //Start of checkbox
         CheckBox checkBox = findViewById(R.id.remember_checkbox);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -65,14 +66,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
             intent.putExtra("user", "goutham");
             startActivity(intent);
-        }
+        }*/
         Button button = (Button) findViewById(R.id.login_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText userEdit = (EditText) findViewById(R.id.username);
+                final EditText userEdit = (EditText) findViewById(R.id.username);
                 String username = userEdit.getText().toString().trim();
-                EditText passwordEdit = (EditText) findViewById(R.id.password);
+                final EditText passwordEdit = (EditText) findViewById(R.id.password);
                 String password = passwordEdit.getText().toString().trim();
                 if (username.isEmpty()) {
                     userEdit.setError("Enter email id");
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
                                 progressBar.setVisibility(ProgressBar.GONE);
                             } else {
                                 if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                                    userEdit.setText("");
+                                    passwordEdit.setText("");
                                     startActivity(new Intent(getApplicationContext(), MenuActivity.class));
                                     progressBar.setVisibility(ProgressBar.GONE);
                                 } else {
