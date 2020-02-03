@@ -7,6 +7,14 @@
     android:background="@color/darkModeGrey"
     tools:context=".MenuActivity">
 
+    <TextView
+        android:id="@+id/welcome_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:text="Welcome"
+        android:textColor="@android:color/white" />
     <Button
         android:id="@+id/sign_out"
         android:layout_width="wrap_content"

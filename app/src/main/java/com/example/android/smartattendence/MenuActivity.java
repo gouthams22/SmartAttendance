@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuActivity extends AppCompatActivity {
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,5 +40,21 @@ public class MenuActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            textView = findViewById(R.id.welcome_message);
+            textView.setText("Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        textView = findViewById(R.id.welcome_message);
+        textView.setText("");
     }
 }
