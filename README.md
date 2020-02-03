@@ -1,2 +1,2 @@
 # Smart Attendance
-Smart attendence for schools and colleges
+Smart attendance for schools and colleges
