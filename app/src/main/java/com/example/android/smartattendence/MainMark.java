@@ -54,6 +54,20 @@ public class MainMark extends AppCompatActivity implements Connector {
                 Toast.makeText(getApplicationContext(), "Reference Error", Toast.LENGTH_LONG).show();
             }
         });
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot readSnapshot : dataSnapshot.child("class").getChildren()) {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Toast.makeText(MainMark.this, list1.get(1), Toast.LENGTH_LONG).show();
         ListView listView = (ListView) findViewById(R.id.list1);
         Spinner spinner = (Spinner) findViewById(R.id.spinner1);

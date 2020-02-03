@@ -45,7 +45,9 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            finish();
+        } else {
             textView = findViewById(R.id.welcome_message);
             textView.setText("Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
         }
