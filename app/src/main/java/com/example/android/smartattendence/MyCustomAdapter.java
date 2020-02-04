@@ -66,6 +66,8 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         final CheckBox button = (CheckBox) view.findViewById(R.id.listCheck1);
         if (attendenceList.get(position).equals("true"))
             button.setChecked(true);
+        else
+            button.setChecked(false);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

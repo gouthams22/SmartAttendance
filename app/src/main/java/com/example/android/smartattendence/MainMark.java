@@ -40,6 +40,7 @@ public class MainMark extends AppCompatActivity implements Connector {
     DatabaseReference databaseReference;
     Button markButton;
     ProgressBar progressBar, submitProgress;
+    TextView textView;
     boolean duplicate;
     private String clickedClass;
 
@@ -47,9 +48,14 @@ public class MainMark extends AppCompatActivity implements Connector {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_mark);
+        textView = findViewById(R.id.date_text);
+        textView.setText("Date : " + getCurrentDate());
+        textView = findViewById(R.id.period_text);
+        textView.setText("Period : " + (getPeriod(Calendar.getInstance().get(Calendar.HOUR)) == -1 ? "Outside class hour" : getPeriod(Calendar.getInstance().get(Calendar.HOUR))));
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         submitProgress = findViewById(R.id.submit_progress);
         markButton = findViewById(R.id.mark_button);
+        markButton.setVisibility(Button.GONE);
         progressBar.setVisibility(ProgressBar.VISIBLE);
 //        childArrayList = new ArrayList<>();
         //Firebase Database
@@ -134,12 +140,14 @@ public class MainMark extends AppCompatActivity implements Connector {
                 for (DataSnapshot iDataSnapshot : dataSnapshot.child("class").getChildren()) {
                     for (DataSnapshot jDataSnapshot : iDataSnapshot.child("attendance").getChildren()) {
                         String tempDate = "" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + Calendar.getInstance().get(Calendar.YEAR);
-                        if (jDataSnapshot.child("date").getValue(String.class).equals(tempDate)) {
-                            if (jDataSnapshot.child("period").getValue(String.class).equals("" + getPeriod(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)))) {
-                                duplicate = true;
-                                return;
+                        if (jDataSnapshot.child("date").getValue(String.class) != null)
+                            if (jDataSnapshot.child("date").getValue(String.class).equals(tempDate)) {
+                                if (jDataSnapshot.child("period").getValue(String.class) != null)
+                                    if (jDataSnapshot.child("period").getValue(String.class).equals("" + getPeriod(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)))) {
+                                        duplicate = true;
+                                        return;
+                                    }
                             }
-                        }
                     }
                 }
                 duplicate = false;
@@ -207,7 +215,6 @@ public class MainMark extends AppCompatActivity implements Connector {
     @Override
     protected void onStart() {
         super.onStart();
-        markButton.setVisibility(Button.GONE);
         if (FirebaseAuth.getInstance().getCurrentUser() == null)
             finish();
     }
@@ -216,6 +223,10 @@ public class MainMark extends AppCompatActivity implements Connector {
         if (hour >= 9 && hour <= 12) return hour - 8;
         else if (hour >= 14 && hour <= 15) return hour - 9;
         else return -1;
+    }
+
+    public String getCurrentDate() {
+        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + Calendar.getInstance().get(Calendar.YEAR);
     }
 
 
