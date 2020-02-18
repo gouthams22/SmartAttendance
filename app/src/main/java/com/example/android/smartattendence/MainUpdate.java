@@ -169,7 +169,12 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("table");
                 for (int i = 0; i < studentName.size(); i++) {
                     Attendance attendance = new Attendance(editDate.getText().toString().trim(), editPeriod.getText().toString().trim(), attendanceList.get(i));
-                    databaseReference.child("class").child(studentKey.get(i)).child("attendance").child(attendanceKey.get(i)).setValue(attendance);
+                    databaseReference.child("class").child(studentKey.get(i)).child("attendance").child(attendanceKey.get(i)).setValue(attendance).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 progressUpdate.setVisibility(View.GONE);
             }

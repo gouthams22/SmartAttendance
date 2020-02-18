@@ -11,8 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,7 +25,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
-    boolean remember;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
@@ -68,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("user", "goutham");
             startActivity(intent);
         }*/
-        Button button = (Button) findViewById(R.id.login_button);
+        Button button = findViewById(R.id.login_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText userEdit = (EditText) findViewById(R.id.username);
+                final EditText userEdit = findViewById(R.id.username);
                 String username = userEdit.getText().toString().trim();
-                final EditText passwordEdit = (EditText) findViewById(R.id.password);
+                final EditText passwordEdit = findViewById(R.id.password);
                 String password = passwordEdit.getText().toString().trim();
                 if (username.isEmpty()) {
                     userEdit.setError("Enter email id");
@@ -83,23 +80,23 @@ public class MainActivity extends AppCompatActivity {
                 } else if (password.isEmpty()) {
                     passwordEdit.setError("Enter password");
                     passwordEdit.requestFocus();
-                } else if (!username.isEmpty() && !password.isEmpty()) {
-                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
                     firebaseAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "Login unsuccessful", Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(ProgressBar.GONE);
+                                progressBar.setVisibility(View.GONE);
                             } else {
                                 if (firebaseAuth.getCurrentUser().isEmailVerified()) {
                                     userEdit.setText("");
                                     passwordEdit.setText("");
                                     startActivity(new Intent(getApplicationContext(), MenuActivity.class));
-                                    progressBar.setVisibility(ProgressBar.GONE);
+                                    progressBar.setVisibility(View.GONE);
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Please verify your E-mail address", Toast.LENGTH_LONG).show();
-                                    progressBar.setVisibility(ProgressBar.GONE);
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -119,22 +116,22 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText userEdit = (EditText) findViewById(R.id.username);
+                EditText userEdit = findViewById(R.id.username);
                 String username = userEdit.getText().toString().trim();
                 if (username.isEmpty()) {
                     userEdit.setError("Enter email id to reset");
                     userEdit.requestFocus();
                 } else {
-                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                     firebaseAuth.sendPasswordResetEmail(username)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        progressBar.setVisibility(ProgressBar.GONE);
+                                        progressBar.setVisibility(View.GONE);
                                         Toast.makeText(getApplicationContext(), "An email has been sent to you.", Toast.LENGTH_LONG).show();
                                     } else {
-                                        progressBar.setVisibility(ProgressBar.GONE);
+                                        progressBar.setVisibility(View.GONE);
                                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }

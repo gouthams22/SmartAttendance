@@ -13,5 +13,12 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+        MainMark mainMark = new MainMark();
+        assertEquals(6, mainMark.getPeriod(15));
+    }
+
+    @Test
+    public void check() {
+        assertNotNull((new MainMark()).firebaseUser);
     }
 }

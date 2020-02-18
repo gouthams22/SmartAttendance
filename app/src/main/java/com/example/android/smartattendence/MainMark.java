@@ -23,11 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.LinkedHashSet;
 
 public class MainMark extends AppCompatActivity implements Connector {
+    FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     //    String classes[] = {"Class A", "Class B", "Class C"};
     //    ArrayList<ClassChild> classChildren = new ArrayList<>();
@@ -51,11 +50,11 @@ public class MainMark extends AppCompatActivity implements Connector {
         textView = findViewById(R.id.date_text);
         textView.setText("Date : " + getCurrentDate());
         textView = findViewById(R.id.period_text);
-        textView.setText("Period : " + (getPeriod(Calendar.getInstance().get(Calendar.HOUR)) == -1 ? "Outside class hour" : getPeriod(Calendar.getInstance().get(Calendar.HOUR))));
+        textView.setText("Period : " + (getPeriod(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) == -1 ? "Outside class hour" : getPeriod(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))));
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         submitProgress = findViewById(R.id.submit_progress);
         markButton = findViewById(R.id.mark_button);
-        markButton.setVisibility(Button.GONE);
+        markButton.setVisibility(View.GONE);
         progressBar.setVisibility(ProgressBar.VISIBLE);
 //        childArrayList = new ArrayList<>();
         //Firebase Database
@@ -65,7 +64,7 @@ public class MainMark extends AppCompatActivity implements Connector {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 markButton.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(ProgressBar.GONE);
+                progressBar.setVisibility(View.GONE);
                 className.clear();
                 for (DataSnapshot classSnapshot : dataSnapshot.child("class").getChildren()) {
 //                    ClassChild classChild = new ClassChild();
@@ -160,9 +159,7 @@ public class MainMark extends AppCompatActivity implements Connector {
         });
 
 //        Toast.makeText(MainMark.this, list1.get(1), Toast.LENGTH_LONG).show();
-        ListView listView = (ListView) findViewById
-
-                (R.id.list1);
+//        ListView listView = (ListView) findViewById(R.id.list1);
         Spinner spinner = (Spinner) findViewById(R.id.spinner1);
 //        ArrayAdapter adap1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_class, classes);
         ArrayAdapter adap1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_class, className);
@@ -172,7 +169,7 @@ public class MainMark extends AppCompatActivity implements Connector {
         markButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitProgress.setVisibility(ProgressBar.VISIBLE);
+                submitProgress.setVisibility(View.VISIBLE);
                 Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1;
@@ -181,12 +178,12 @@ public class MainMark extends AppCompatActivity implements Connector {
                 int period = getPeriod(hour);
                 if (period == -1) {
                     Toast.makeText(getApplicationContext(), "Are you marking attendance at the right time?", Toast.LENGTH_LONG).show();
-                    submitProgress.setVisibility(ProgressBar.GONE);
+                    submitProgress.setVisibility(View.GONE);
                     return;
                 }
                 if (duplicate) {
                     Toast.makeText(getApplicationContext(), "Attendance already entered! Try updating", Toast.LENGTH_LONG).show();
-                    submitProgress.setVisibility(ProgressBar.GONE);
+                    submitProgress.setVisibility(View.GONE);
                 } else {
                     for (int i = 0; i < attendanceList.size(); i++) {
                         String tempDate = "" + day + "/" + month + "/" + year;
@@ -197,7 +194,7 @@ public class MainMark extends AppCompatActivity implements Connector {
 //                        Toast.makeText(getApplicationContext(), temps, Toast.LENGTH_SHORT).show();
                     }
                     Toast.makeText(getApplicationContext(), "Marked attendance successfully!", Toast.LENGTH_LONG).show();
-                    submitProgress.setVisibility(ProgressBar.GONE);
+                    submitProgress.setVisibility(View.GONE);
                 }
 
             }
