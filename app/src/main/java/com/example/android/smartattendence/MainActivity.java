@@ -73,11 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 String username = userEdit.getText().toString().trim();
                 final EditText passwordEdit = findViewById(R.id.password);
                 String password = passwordEdit.getText().toString().trim();
-                if (username.isEmpty()) {
+
+                if (checkEmpty(username)) {
                     userEdit.setError("Enter email id");
                     userEdit.requestFocus();
-//                    return;
-                } else if (password.isEmpty()) {
+                } else if (checkEmpty(password)) {
                     passwordEdit.setError("Enter password");
                     passwordEdit.requestFocus();
                 } else {
@@ -167,6 +167,11 @@ public class MainActivity extends AppCompatActivity {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
     }
+
+    public boolean checkEmpty(String string) {
+        return string.isEmpty();
+    }
+
 }
 /*
 
