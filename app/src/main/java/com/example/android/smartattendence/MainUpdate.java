@@ -65,7 +65,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                 // Hide the soft keyboard
                 inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
-                if (editDate.getText().toString().trim().equals("")) {
+                if (validateUpdate(editDate.getText().toString().trim())) {
                     progressDetail.setVisibility(View.INVISIBLE);
                     editDate.setError("Enter the Date");
                     editDate.requestFocus();
@@ -75,7 +75,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                     editDate.setError(null);
                     editDate.clearFocus();
                 }
-                if (editPeriod.getText().toString().trim().equals("")) {
+                if (validateUpdate(editPeriod.getText().toString().trim())) {
                     progressDetail.setVisibility(View.INVISIBLE);
                     editPeriod.setError("Enter the period");
                     editPeriod.requestFocus();
@@ -187,4 +187,10 @@ public class MainUpdate extends AppCompatActivity implements Connector {
 //        attendanceList.set(studentName.indexOf(s), t);
         attendanceList.set(studentName.indexOf(s), t);
     }
+
+    public boolean validateUpdate(String string) {
+        return string.isEmpty();
+    }
+
+
 }

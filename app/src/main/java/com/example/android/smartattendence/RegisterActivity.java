@@ -46,10 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (password.isEmpty()) {
                     passwordEdit.setError("Enter Password");
                     passwordEdit.requestFocus();
-                } else if (!email.contains("@") || !email.contains(".")) {
+                } else if (checkEmail(email)) {
                     userEdit.setError("Username is not valid!");
                     userEdit.requestFocus();
-                } else if (password.length() < 8) {
+                } else if (checkPassword(password)) {
                     passwordEdit.setError("Minimum 8 Characters!");
                     passwordEdit.requestFocus();
                 } else if (!(email.isEmpty() || password.isEmpty())) {
@@ -102,4 +102,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+    public boolean checkEmail(String email) {
+        return !email.contains("@") || !email.contains(".");
+    }
+
+    public boolean checkPassword(String password) {
+        return password.length() < 8;
+    }
+
 }
