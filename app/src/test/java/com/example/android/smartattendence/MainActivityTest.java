@@ -30,23 +30,20 @@ public class MainActivityTest {
         String username = "";
         String password = "";
         boolean output;
-        boolean expectedUser = true;
-        boolean expectedPass = true;
         output = mainActivity.checkEmpty(username);
-        assertEquals(expectedUser, output);
+        assertTrue(output);
         output = mainActivity.checkEmpty(password);
-        assertEquals(expectedPass, output);
+        assertTrue(output);
 
         username = "Hello";
         password = "everyone";
-        expectedUser = false;
-        expectedPass = false;
         output = mainActivity.checkEmpty(username);
-        assertEquals(expectedUser, output);
+        assertFalse(output);
         output = mainActivity.checkEmpty(password);
-        assertEquals(expectedPass, output);
+        assertFalse(output);
     }
-@Test
+
+    @Test
     public void register_validate() throws Exception {
         RegisterActivity registerActivity = new RegisterActivity();
         String username = "abcdefgh";
@@ -73,7 +70,7 @@ public class MainActivityTest {
     public void date_check() {
         int input = 15;
         String output;
-        String expected = "19/2/2020";
+        String expected = "21/2/2020";
         MainMark mainMark = new MainMark();
         output = mainMark.getCurrentDate();
         assertEquals(expected, output);
