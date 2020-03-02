@@ -89,7 +89,7 @@ public class MainActivityTest {
         output = mainUpdate.validateUpdate(period);
         assertEquals(expectedPass, output);
 
-        date = "19/2/2020";
+        date = "21/2/2020";
         period = "5";
         expectedUser = false;
         expectedPass = false;
