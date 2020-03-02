@@ -55,7 +55,7 @@
             android:layout_marginBottom="5dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:paddingBottom="24dp"
+            android:paddingBottom="12dp"
             android:textColorHint="@android:color/white">
 
             <EditText
@@ -112,6 +112,14 @@
                 android:visibility="gone" />
         </LinearLayout>
 -->
+        <TextView
+            android:id="@+id/current_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
         <ListView
             android:id="@+id/list1"
             android:layout_width="match_parent"
@@ -140,8 +148,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            android:visibility="gone"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

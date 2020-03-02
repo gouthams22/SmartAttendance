@@ -34,6 +34,7 @@ public class MainMark extends AppCompatActivity implements Connector {
     ArrayList<String> studentName = new ArrayList<>();
     ArrayList<String> studentID = new ArrayList<>();
     ArrayList<String> attendanceList = new ArrayList<>();
+    ArrayList<String> subjectList = new ArrayList<>();
     //    ArrayList<String> list = new ArrayList<String>(Arrays.asList("111,222".split(",")));//,333,444,555,666
 //    ArrayList<String> list1 = new ArrayList<String>(Arrays.asList("true,false".split(",")));//true,false,true,false,
     DatabaseReference databaseReference;
@@ -41,7 +42,7 @@ public class MainMark extends AppCompatActivity implements Connector {
     ProgressBar progressBar, submitProgress;
     TextView textView;
     boolean duplicate;
-    private String clickedClass;
+    private String clickedClass, clickedSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,42 @@ public class MainMark extends AppCompatActivity implements Connector {
         //Firebase Database
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("table");
+        //Retrieving the subjects from teachers' list
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).exists()) {
+                    for (DataSnapshot subjectSnapshot : dataSnapshot.child("user").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("subject").getChildren()) {
+                        subjectList.add(subjectSnapshot.child("subname").getValue(String.class));
+                    }
+                    Spinner spinner = findViewById(R.id.spinner_subject);
+                    ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_class, subjectList);
+                    adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+                    spinner.setAdapter(adapter);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            try {
+                                clickedSubject = ((TextView) view).getText().toString();
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Unable to connect to the database", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //Retrieving users from database
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,6 +114,7 @@ public class MainMark extends AppCompatActivity implements Connector {
 //                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 Spinner spinner = (Spinner) findViewById(R.id.spinner1);
                 ArrayAdapter adap1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_class, className);
                 adap1.setDropDownViewResource(R.layout.spinner_dropdown);
@@ -90,7 +128,6 @@ public class MainMark extends AppCompatActivity implements Connector {
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
-
                         FirebaseDatabase.getInstance().getReference("table").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -166,6 +203,8 @@ public class MainMark extends AppCompatActivity implements Connector {
         adap1.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(adap1);
 //        listView.setAdapter(new MyCustomAdapter(list, list1, MainMark.this, MainMark.this));
+
+        //OnClickListener for marking attendance from app to FireBase
         markButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,7 +226,8 @@ public class MainMark extends AppCompatActivity implements Connector {
                 } else {
                     for (int i = 0; i < attendanceList.size(); i++) {
                         String tempDate = "" + day + "/" + month + "/" + year;
-                        Attendance attendance = new Attendance(tempDate, period + "", attendanceList.get(i));
+                        Spinner spinner = findViewById(R.id.spinner_subject);
+                        Attendance attendance = new Attendance(tempDate, period + "", attendanceList.get(i), firebaseUser.getUid(), clickedSubject);
                         String tempID = databaseReference.child("class").child(studentID.get(i)).child("attendance").push().getKey();
                         databaseReference.child("class").child(studentID.get(i)).child("attendance").child(tempID).setValue(attendance);
 //                        String temps = studentID.get(i);
@@ -212,8 +252,11 @@ public class MainMark extends AppCompatActivity implements Connector {
     @Override
     protected void onStart() {
         super.onStart();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null)
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             finish();
+        } else if (!FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+            finish();
+        }
     }
 
     public int getPeriod(int hour) {

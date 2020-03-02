@@ -49,6 +49,8 @@ public class MenuActivity extends AppCompatActivity {
         super.onStart();
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             finish();
+        } else if (!FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+            finish();
         } else {
             textView = findViewById(R.id.welcome_message);
             textView.setText("Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail());

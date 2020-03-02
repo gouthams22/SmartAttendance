@@ -8,17 +8,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,13 +36,11 @@ public class MainUpdate extends AppCompatActivity implements Connector {
     ArrayList<String> studentID = new ArrayList<>();
     ArrayList<String> studentKey = new ArrayList<>();
     ArrayList<String> attendanceKey = new ArrayList<>();
-    String classes[] = {"Class A", "Class B", "Class C"};
-    ArrayList<String> list = new ArrayList<String>(Arrays.asList("111,222,333,444,555,666".split(",")));
-    ArrayList<String> list1 = new ArrayList<String>(Arrays.asList("false,true,false,true,false,false".split(",")));
     EditText editDate, editPeriod;
     Button button;
     ProgressBar progressDetail, progressUpdate;
     ImageButton dateImageButton;
+    String currentSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +62,28 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                         v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 // Hide the soft keyboard
                 inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
+                editDate.setEnabled(false);
+                editPeriod.setEnabled(false);
                 if (validateUpdate(editDate.getText().toString().trim())) {
                     progressDetail.setVisibility(View.INVISIBLE);
                     editDate.setError("Enter the Date");
                     editDate.requestFocus();
+                    editDate.setEnabled(true);
+                    editPeriod.setEnabled(true);
                     return;
                 }
                 if (!editDate.getText().toString().trim().equals("")) {
                     editDate.setError(null);
                     editDate.clearFocus();
+                    editDate.setEnabled(true);
+                    editPeriod.setEnabled(true);
                 }
                 if (validateUpdate(editPeriod.getText().toString().trim())) {
                     progressDetail.setVisibility(View.INVISIBLE);
                     editPeriod.setError("Enter the period");
                     editPeriod.requestFocus();
+                    editDate.setEnabled(true);
+                    editPeriod.setEnabled(true);
                     return;
                 }
                 Button tempButton = findViewById(R.id.update_button);
@@ -91,6 +96,9 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                         className.clear();
                         for (DataSnapshot i : dataSnapshot.child("class").getChildren()) {
                             for (DataSnapshot j : i.child("attendance").getChildren()) {
+                                if (!j.child("tid").getValue(String.class).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    break;
+                                }
                                 if (j.child("date").getValue(String.class) != null)
                                     if (j.child("date").getValue(String.class).equals(editDate.getText().toString().trim())) {
                                         if (j.child("period").getValue(String.class).equals(editPeriod.getText().toString().trim())) {
@@ -98,6 +106,8 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                                                 check = true;
                                                 if (!className.contains(i.child("classname").getValue(String.class))) {
                                                     className.add(i.child("classname").getValue(String.class));
+                                                    currentSubject = j.child("subname").getValue(String.class);
+                                                    ((TextView) findViewById(R.id.current_subject)).setText(currentSubject);
                                                 }
                                             }
                                         }
@@ -115,6 +125,9 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                                 if (iSnapshot.child("classname").getValue(String.class) != null)
                                     if (iSnapshot.child("classname").getValue(String.class).equals(className.get(0))) {
                                         for (DataSnapshot jSnapshot : iSnapshot.child("attendance").getChildren()) {
+                                            if (!jSnapshot.child("tid").getValue(String.class).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                                break;
+                                            }
                                             if (jSnapshot.child("date").getValue(String.class) != null)
                                                 if (jSnapshot.child("date").getValue(String.class).equals(editDate.getText().toString())) {
                                                     if (jSnapshot.child("period").getValue(String.class).equals(editPeriod.getText().toString())) {
@@ -127,7 +140,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                                         }
                                     }
                             }
-                            ListView listView = (ListView) findViewById(R.id.list1);
+                            ListView listView = findViewById(R.id.list1);
                             listView.setAdapter(new MyCustomAdapter(studentName, attendanceList, MainUpdate.this, MainUpdate.this));
                         } else {
                             Toast.makeText(getApplicationContext(), "Wrong details", Toast.LENGTH_LONG).show();
@@ -168,7 +181,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                 progressUpdate.setVisibility(View.VISIBLE);
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("table");
                 for (int i = 0; i < studentName.size(); i++) {
-                    Attendance attendance = new Attendance(editDate.getText().toString().trim(), editPeriod.getText().toString().trim(), attendanceList.get(i));
+                    Attendance attendance = new Attendance(editDate.getText().toString().trim(), editPeriod.getText().toString().trim(), attendanceList.get(i), FirebaseAuth.getInstance().getCurrentUser().getUid(), currentSubject);
                     databaseReference.child("class").child(studentKey.get(i)).child("attendance").child(attendanceKey.get(i)).setValue(attendance).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -179,6 +192,16 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                 progressUpdate.setVisibility(View.GONE);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            finish();
+        } else if (!FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+            finish();
+        }
     }
 
     @Override
