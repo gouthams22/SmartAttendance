@@ -28,10 +28,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class MainUpdate extends AppCompatActivity implements Connector {
     ArrayList<String> className = new ArrayList<>();
-    ArrayList<String> studentName = new ArrayList<>();
+    ArrayList<String> studentRoll = new ArrayList<>();
     ArrayList<String> attendanceList = new ArrayList<>();
     ArrayList<String> studentID = new ArrayList<>();
     ArrayList<String> studentKey = new ArrayList<>();
@@ -116,7 +117,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                         }
                         if (check) {
                             progressDetail.setVisibility(View.INVISIBLE);
-                            studentName.clear();
+                            studentRoll.clear();
                             attendanceList.clear();
                             studentKey.clear();
                             attendanceKey.clear();
@@ -133,15 +134,20 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                                                     if (jSnapshot.child("period").getValue(String.class).equals(editPeriod.getText().toString())) {
                                                         studentKey.add(iSnapshot.getKey());
                                                         attendanceKey.add(jSnapshot.getKey());
-                                                        studentName.add(iSnapshot.child("name").getValue(String.class));
+                                                        studentRoll.add(iSnapshot.child("rollno").getValue(String.class));
                                                         attendanceList.add(jSnapshot.child("present").getValue(String.class));
                                                     }
                                                 }
                                         }
                                     }
                             }
+                            ArrayList<String> duplicateRoll = new ArrayList<>(studentRoll);
+                            Collections.sort(studentRoll);
+                            studentKey = sortAttendanceList(studentKey, studentRoll, duplicateRoll);
+                            attendanceKey = sortAttendanceList(attendanceKey, studentRoll, duplicateRoll);
+                            attendanceList = sortAttendanceList(attendanceList, studentRoll, duplicateRoll);
                             ListView listView = findViewById(R.id.list1);
-                            listView.setAdapter(new MyCustomAdapter(studentName, attendanceList, MainUpdate.this, MainUpdate.this));
+                            listView.setAdapter(new MyCustomAdapter(studentRoll, attendanceList, MainUpdate.this, MainUpdate.this));
                         } else {
                             Toast.makeText(getApplicationContext(), "Wrong details", Toast.LENGTH_LONG).show();
                             progressDetail.setVisibility(View.INVISIBLE);
@@ -180,7 +186,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
             public void onClick(View v) {
                 progressUpdate.setVisibility(View.VISIBLE);
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("table");
-                for (int i = 0; i < studentName.size(); i++) {
+                for (int i = 0; i < studentRoll.size(); i++) {
                     Attendance attendance = new Attendance(editDate.getText().toString().trim(), editPeriod.getText().toString().trim(), attendanceList.get(i), FirebaseAuth.getInstance().getCurrentUser().getUid(), currentSubject);
                     databaseReference.child("class").child(studentKey.get(i)).child("attendance").child(attendanceKey.get(i)).setValue(attendance).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -192,6 +198,14 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                 progressUpdate.setVisibility(View.GONE);
             }
         });
+    }
+
+    private ArrayList<String> sortAttendanceList(ArrayList<String> attendanceList, ArrayList<String> studentRoll, ArrayList<String> duplicateRoll) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (int i = 0; i < attendanceList.size(); i++) {
+            arrayList.add(attendanceList.get(duplicateRoll.indexOf(studentRoll.get(i))));
+        }
+        return arrayList;
     }
 
     @Override
@@ -207,8 +221,8 @@ public class MainUpdate extends AppCompatActivity implements Connector {
     @Override
     public void onCheckedBox(String s, int pos, String t) {
 //        Toast.makeText(MainUpdate.this, s + pos, Toast.LENGTH_LONG).show();
-//        attendanceList.set(studentName.indexOf(s), t);
-        attendanceList.set(studentName.indexOf(s), t);
+//        attendanceList.set(studentRoll.indexOf(s), t);
+        attendanceList.set(studentRoll.indexOf(s), t);
     }
 
     public boolean validateUpdate(String string) {

@@ -24,19 +24,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class MainMark extends AppCompatActivity implements Connector {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
-    //    String classes[] = {"Class A", "Class B", "Class C"};
-    //    ArrayList<ClassChild> classChildren = new ArrayList<>();
     ArrayList<String> className = new ArrayList<>();
-    ArrayList<String> studentName = new ArrayList<>();
+    ArrayList<String> studentRoll = new ArrayList<>();
     ArrayList<String> studentID = new ArrayList<>();
     ArrayList<String> attendanceList = new ArrayList<>();
     ArrayList<String> subjectList = new ArrayList<>();
-    //    ArrayList<String> list = new ArrayList<String>(Arrays.asList("111,222".split(",")));//,333,444,555,666
-//    ArrayList<String> list1 = new ArrayList<String>(Arrays.asList("true,false".split(",")));//true,false,true,false,
     DatabaseReference databaseReference;
     Button markButton;
     ProgressBar progressBar, submitProgress;
@@ -57,10 +54,11 @@ public class MainMark extends AppCompatActivity implements Connector {
         markButton = findViewById(R.id.mark_button);
         markButton.setVisibility(View.GONE);
         progressBar.setVisibility(ProgressBar.VISIBLE);
-//        childArrayList = new ArrayList<>();
+
         //Firebase Database
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("table");
+
         //Retrieving the subjects from teachers' list
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,6 +94,7 @@ public class MainMark extends AppCompatActivity implements Connector {
                 Toast.makeText(getApplicationContext(), "Unable to connect to the database", Toast.LENGTH_SHORT).show();
             }
         });
+
         //Retrieving users from database
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,23 +103,15 @@ public class MainMark extends AppCompatActivity implements Connector {
                 progressBar.setVisibility(View.GONE);
                 className.clear();
                 for (DataSnapshot classSnapshot : dataSnapshot.child("class").getChildren()) {
-//                    ClassChild classChild = new ClassChild();
-//                    classChild = classSnapshot.getValue(ClassChild.class);
-//                    className.add(classChild.className);
-//                    classChildren.add(classSnapshot.getValue(ClassChild.class));
                     if (!className.contains(classSnapshot.child("classname").getValue(String.class))) {
                         className.add(classSnapshot.child("classname").getValue(String.class));
-                        String s = classSnapshot.getKey();
-//                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                     }
                 }
-
                 Spinner spinner = (Spinner) findViewById(R.id.spinner1);
                 ArrayAdapter adap1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_class, className);
                 adap1.setDropDownViewResource(R.layout.spinner_dropdown);
                 spinner.setAdapter(adap1);
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         try {
@@ -131,24 +122,20 @@ public class MainMark extends AppCompatActivity implements Connector {
                         FirebaseDatabase.getInstance().getReference("table").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                studentName.clear();
+                                studentRoll.clear();
                                 studentID.clear();
                                 for (DataSnapshot classSnapshot : dataSnapshot.child("class").getChildren()) {
-//                    ClassChild classChild = new ClassChild();
-//                    classChild = classSnapshot.getValue(ClassChild.class);
-//                    className.add(classChild.className);
-//                    classChildren.add(classSnapshot.getValue(ClassChild.class));
                                     if (classSnapshot.child("classname").getValue(String.class).equals(clickedClass)) {
-                                        studentName.add(classSnapshot.child("name").getValue(String.class));
+                                        studentRoll.add(classSnapshot.child("rollno").getValue(String.class));
                                         studentID.add(classSnapshot.getKey());
                                     }
-//                                    attendanceList.add(classSnapshot.child("attendance").child("present").getValue(String.class));
                                 }
                                 ListView listView = (ListView) findViewById(R.id.list1);
+                                Collections.sort(studentRoll);
                                 attendanceList = new ArrayList<String>();
-                                for (int i = 0; i < studentName.size(); i++)
+                                for (int i = 0; i < studentRoll.size(); i++)
                                     attendanceList.add("false");
-                                listView.setAdapter(new MyCustomAdapter(studentName, attendanceList, MainMark.this, MainMark.this));
+                                listView.setAdapter(new MyCustomAdapter(studentRoll, attendanceList, MainMark.this, MainMark.this));
                             }
 
                             @Override
@@ -194,15 +181,10 @@ public class MainMark extends AppCompatActivity implements Connector {
 
             }
         });
-
-//        Toast.makeText(MainMark.this, list1.get(1), Toast.LENGTH_LONG).show();
-//        ListView listView = (ListView) findViewById(R.id.list1);
         Spinner spinner = (Spinner) findViewById(R.id.spinner1);
-//        ArrayAdapter adap1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_class, classes);
         ArrayAdapter adap1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_class, className);
         adap1.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(adap1);
-//        listView.setAdapter(new MyCustomAdapter(list, list1, MainMark.this, MainMark.this));
 
         //OnClickListener for marking attendance from app to FireBase
         markButton.setOnClickListener(new View.OnClickListener() {
@@ -228,10 +210,8 @@ public class MainMark extends AppCompatActivity implements Connector {
                         String tempDate = "" + day + "/" + month + "/" + year;
                         Spinner spinner = findViewById(R.id.spinner_subject);
                         Attendance attendance = new Attendance(tempDate, period + "", attendanceList.get(i), firebaseUser.getUid(), clickedSubject);
-                        String tempID = databaseReference.child("class").child(studentID.get(i)).child("attendance").push().getKey();
-                        databaseReference.child("class").child(studentID.get(i)).child("attendance").child(tempID).setValue(attendance);
-//                        String temps = studentID.get(i);
-//                        Toast.makeText(getApplicationContext(), temps, Toast.LENGTH_SHORT).show();
+                        String pushID = databaseReference.child("class").child(studentID.get(i)).child("attendance").push().getKey();
+                        databaseReference.child("class").child(studentID.get(i)).child("attendance").child(pushID).setValue(attendance);
                     }
                     Toast.makeText(getApplicationContext(), "Marked attendance successfully!", Toast.LENGTH_LONG).show();
                     submitProgress.setVisibility(View.GONE);
@@ -243,10 +223,7 @@ public class MainMark extends AppCompatActivity implements Connector {
 
     @Override
     public void onCheckedBox(String s, int pos, String t) {
-        int position = studentName.indexOf(s);
-//        Toast.makeText(MainMark.this, attendanceList.get(position), Toast.LENGTH_LONG).show();
-//        Toast.makeText(MainMark.this, s + pos, Toast.LENGTH_LONG).show();
-        attendanceList.set(studentName.indexOf(s), t);
+        attendanceList.set(studentRoll.indexOf(s), t);
     }
 
     @Override
