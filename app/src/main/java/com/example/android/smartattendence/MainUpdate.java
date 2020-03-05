@@ -121,7 +121,6 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                             attendanceList.clear();
                             studentKey.clear();
                             attendanceKey.clear();
-//                                    className.get(0);
                             for (DataSnapshot iSnapshot : dataSnapshot.child("class").getChildren()) {
                                 if (iSnapshot.child("classname").getValue(String.class) != null)
                                     if (iSnapshot.child("classname").getValue(String.class).equals(className.get(0))) {
