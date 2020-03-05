@@ -21,10 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MenuActivity" />
-        <activity
-            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
-            tools:replace="android:launchMode"
-            android:launchMode="standard" />
     </application>
 
 </manifest>
