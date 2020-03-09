@@ -42,6 +42,22 @@ public class MenuActivity extends AppCompatActivity {
                 finish();
             }
         });
+        button = findViewById(R.id.button_view);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, ViewActivity.class);
+                startActivity(i);
+            }
+        });
+        button = findViewById(R.id.button_management);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, ManagementActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
