@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,13 +19,15 @@ public class ViewCustomAdapter extends BaseAdapter implements ListAdapter {
   //  private Connector conn;
 
 
-    private ArrayList<String> nameList = new ArrayList<String>();
+    private ArrayList<String> dateList = new ArrayList<String>();
     private ArrayList<String> attendenceList = new ArrayList<String>();
+    private ArrayList<String> periodList = new ArrayList<String>();
     private Context context;
 
-    public ViewCustomAdapter(ArrayList<String> nameList, ArrayList<String> list2, Context context, Activity activity) {
-        this.nameList = nameList;
+    public ViewCustomAdapter(ArrayList<String> nameList, ArrayList<String> list3, ArrayList<String> list2, Context context, Activity activity) {
+        this.dateList = nameList;
         this.attendenceList = list2;
+        this.periodList= list3;
         this.context = context;
         try {
  //           conn = (Connector) activity;
@@ -35,12 +38,12 @@ public class ViewCustomAdapter extends BaseAdapter implements ListAdapter {
 
     @Override
     public int getCount() {
-        return nameList.size();
+        return dateList.size();
     }
 
     @Override
     public Object getItem(int pos) {
-        return nameList.get(pos);
+        return dateList.get(pos);
     }
 
     @Override
@@ -60,11 +63,14 @@ public class ViewCustomAdapter extends BaseAdapter implements ListAdapter {
 
         //Handle TextView and display string from your nameList
         final TextView text = (TextView) view.findViewById(R.id.listText1);
-        text.setText(nameList.get(position));
+        text.setText(dateList.get(position));
 
         //Handle buttons and add onClickListeners
         final TextView text1 = (TextView) view.findViewById(R.id.listText2);
         text1.setText(attendenceList.get(position));
+
+        final TextView text2 = (TextView) view.findViewById(R.id.listText3);
+        text2.setText(periodList.get(position));
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

@@ -20,13 +20,13 @@ public class ViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view);
         editRollno=findViewById(R.id.edit_rollno);
         editSubject=findViewById(R.id.edit_subject);
-        dateList.add("1");
+        dateList.add("Date");
         dateList.add("2");
         dateList.add("3");
-        attendanceList.add("1");
+        attendanceList.add("Attendence");
         attendanceList.add("2");
         attendanceList.add("3");
         ListView listView = findViewById(R.id.list1);
-        listView.setAdapter(new ViewCustomAdapter(dateList, attendanceList, ViewActivity.this, ViewActivity.this));
+        listView.setAdapter(new ViewCustomAdapter(dateList, attendanceList,dateList, ViewActivity.this, ViewActivity.this));
     }
 }
