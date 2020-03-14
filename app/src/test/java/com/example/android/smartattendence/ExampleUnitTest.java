@@ -16,9 +16,4 @@ public class ExampleUnitTest {
         MainMark mainMark = new MainMark();
         assertEquals(6, mainMark.getPeriod(15));
     }
-
-    @Test
-    public void check() {
-        assertNotNull((new MainMark()).firebaseUser);
-    }
 }

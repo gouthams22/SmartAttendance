@@ -4,6 +4,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Test;
 
+import java.util.Calendar;
+
 import static org.junit.Assert.*;
 
 public class MainActivityTest {
@@ -70,7 +72,8 @@ public class MainActivityTest {
     public void date_check() {
         int input = 15;
         String output;
-        String expected = "21/2/2020";
+        String expected = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + Calendar.getInstance().get(Calendar.YEAR);
+        ;
         MainMark mainMark = new MainMark();
         output = mainMark.getCurrentDate();
         assertEquals(expected, output);
