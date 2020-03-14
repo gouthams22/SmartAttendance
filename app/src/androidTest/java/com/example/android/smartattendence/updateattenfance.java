@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class updateattenfance {
-
+/*
     @Rule
     public ActivityTestRule<MainUpdate> mActivityRule = new ActivityTestRule<>(
             MainUpdate.class);
@@ -80,7 +80,7 @@ public class updateattenfance {
     }
 
 
-
+*/
 
 
 }
