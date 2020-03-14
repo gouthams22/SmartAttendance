@@ -54,7 +54,7 @@ public class MainMark extends AppCompatActivity implements Connector {
         markButton = findViewById(R.id.mark_button);
         markButton.setVisibility(View.GONE);
         progressBar.setVisibility(ProgressBar.VISIBLE);
-
+//test
         //Firebase Database
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("table");
