@@ -12,14 +12,15 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
 
         public Activity c;
         public Dialog d;
-        public String name,rollno;
+    public String name, rollno, studentId;
         EditText sname,roll;
         public Button yes, no;
 
-        public CustomDialogClass(Activity a,String name,String rollno) {
+    public CustomDialogClass(Activity a, String name, String rollno, String studentId) {
             super(a);
             // TODO Auto-generated constructor stub
             this.c = a;
+        this.studentId = studentId;
             this.name=name;
             this.rollno=rollno;
         }

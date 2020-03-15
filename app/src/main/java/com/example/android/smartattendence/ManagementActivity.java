@@ -125,7 +125,7 @@ public class ManagementActivity extends AppCompatActivity {
                 alertDialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        CustomDialogClass cdd = new CustomDialogClass(ManagementActivity.this, "hi", "hello");
+                        CustomDialogClass cdd = new CustomDialogClass(ManagementActivity.this, "hi", "hello", studentId);
                         cdd.show();
                     }
                 });
