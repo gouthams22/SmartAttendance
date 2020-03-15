@@ -8,6 +8,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class AddCustomClass extends Dialog implements android.view.View.OnClickListener {
 
     public Activity c;
@@ -20,8 +23,8 @@ public class AddCustomClass extends Dialog implements android.view.View.OnClickL
         super(a);
         // TODO Auto-generated constructor stub
         this.c = a;
-        this.name=name;
-        this.rollno=rollno;
+        this.name = name;
+        this.rollno = rollno;
         this.className = className;
     }
 
@@ -45,7 +48,18 @@ public class AddCustomClass extends Dialog implements android.view.View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("table");
+                if (ename.getText().toString().trim().equals("")) {
+                    ename.setError("Field Blank");
+                    ename.requestFocus();
+                } else if (roll.getText().toString().trim().equals("")) {
+                    roll.setError("Field Blank");
+                    roll.requestFocus();
+                } else {
+                    StudentDetail studentDetail = new StudentDetail(className, ename.getText().toString().trim(), roll.getText().toString().trim());
+                    String key = databaseReference.child("class").push().getKey();
+                    databaseReference.child("class").child(key).setValue(studentDetail);
+                }
                 dismiss();
                 break;
             case R.id.btn_no:
