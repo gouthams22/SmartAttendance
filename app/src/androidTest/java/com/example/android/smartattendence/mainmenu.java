@@ -26,7 +26,7 @@ import static org.hamcrest.core.AllOf.allOf;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class mainmenu {
 
-    @Rule
+ /*   @Rule
     public ActivityTestRule<MenuActivity> mActivityRule = new ActivityTestRule<>(
             MenuActivity.class);
     int i=1;
@@ -74,7 +74,7 @@ public class mainmenu {
         }
 
     }
-
+*/
     /*
     @Test
     public void viewattendancebutton()

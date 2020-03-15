@@ -1,6 +1,7 @@
 package com.example.android.smartattendence;
 import android.content.Context;
 import android.util.Log;
+import android.view.Menu;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,15 +32,24 @@ public class markattendance {
     @Rule
     public ActivityTestRule<MainMark> mActivityRule = new ActivityTestRule<>(
             MainMark.class);
-
-
+    @Rule
+    public ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(
+            MainActivity.class);
+    @Rule
+    public ActivityTestRule<MenuActivity> menuActivityRule = new ActivityTestRule<>(
+            MenuActivity.class);
 
     @Test
-    public void dropdowndeptselction() throws InterruptedException {
-
-        Thread.sleep(10000);
-        onView(withId(R.id.spinner1)).perform(click());
-        onData(anything()).atPosition(2).perform(click());
+    public void dropdowndeptselction() {
+        String testusername = "gouthams0922@gmail.com";
+        String testpassword = "thankyou";
+        onView(withId(R.id.username)).perform(typeText(testusername), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(typeText(testpassword), closeSoftKeyboard());
+        //locate and click on the login button
+        onView(withId(R.id.login_button)).perform(click());
+        onView(withId(R.id.button_mark)).perform(click());
+//        onView(withId(R.id.spinner1)).perform(click());
+//        onData(anything()).atPosition(1).perform(click());
 
         }
 

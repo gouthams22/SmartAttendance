@@ -22,7 +22,7 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class registerpage {
-
+/*
     String uname="cb.en.u4cse17126@cb.students.amtita.edu";
     String pass="sample";
 
@@ -57,6 +57,6 @@ public class registerpage {
         }
 
     }
-
+*/
 
 }
