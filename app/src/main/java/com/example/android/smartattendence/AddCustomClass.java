@@ -13,6 +13,7 @@ public class AddCustomClass extends Dialog implements android.view.View.OnClickL
     public Activity c;
     public Dialog d;
     public String name, rollno, className;
+    public EditText ename, roll;
     public Button yes, no;
 
     public AddCustomClass(Activity a, String className) {
@@ -31,6 +32,8 @@ public class AddCustomClass extends Dialog implements android.view.View.OnClickL
         setContentView(R.layout.custom_dialog);
         yes = (Button) findViewById(R.id.btn_yes);
         no = (Button) findViewById(R.id.btn_no);
+        ename = findViewById(R.id.edit_name);
+        roll = findViewById(R.id.edit_rollno);
         yes.setText("Add");
         no.setText("Cancel");
         yes.setOnClickListener(this);
