@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ManagentCustomAdapter extends BaseAdapter implements ListAdapter {
+public class ManagementCustomAdapter extends BaseAdapter implements ListAdapter {
 
     //  private Connector conn;
 
@@ -22,7 +22,7 @@ public class ManagentCustomAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> attendenceList = new ArrayList<String>();
     private Context context;
 
-    public ManagentCustomAdapter(ArrayList<String> nameList, ArrayList<String> list2, Context context, Activity activity) {
+    public ManagementCustomAdapter(ArrayList<String> nameList, ArrayList<String> list2, Context context, Activity activity) {
         this.nameList = nameList;
         this.attendenceList = list2;
         this.context = context;
