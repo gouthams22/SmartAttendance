@@ -35,11 +35,12 @@ public class ManagementActivity extends AppCompatActivity {
     Spinner spinner;
     ProgressBar progressBar;
     private String clickedClass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management);
-        add=findViewById(R.id.add_button);
+        add = findViewById(R.id.add_button);
         spinner = findViewById(R.id.spinner_subject);
         progressBar = findViewById(R.id.progress_subject);
         progressBar.setVisibility(View.VISIBLE);
@@ -77,12 +78,14 @@ public class ManagementActivity extends AppCompatActivity {
                                     if (classSnapshot.child("classname").getValue(String.class).equals(clickedClass)) {
                                         studentRoll.add(classSnapshot.child("rollno").getValue(String.class));
                                         studentID.add(classSnapshot.getKey());
+                                        studentName.add(classSnapshot.child("name").getValue(String.class));
                                     }
                                 }
                                 ListView listView = (ListView) findViewById(R.id.list1);
                                 ArrayList<String> duplicateRoll = new ArrayList<>(studentRoll);
                                 Collections.sort(studentRoll);
                                 studentID = sortAttendanceList(studentID, studentRoll, duplicateRoll);
+                                studentName = sortAttendanceList(studentName, studentRoll, duplicateRoll);
 //                                attendanceKey = sortAttendanceList(attendanceKey, studentRoll, duplicateRoll);
 //                                attendanceList = sortAttendanceList(attendanceList, studentRoll, duplicateRoll);
                                 listView.setAdapter(new ManagementCustomAdapter(studentRoll, studentRoll, getApplicationContext(), ManagementActivity.this));
@@ -112,8 +115,9 @@ public class ManagementActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String roll = studentRoll.get(position);
-                final String studentId = studentID.get(position);
+                final String roll = studentRoll.get(position);
+                final String tempId = studentID.get(position);
+                final String tempName = studentName.get(position);
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(ManagementActivity.this);
                 // Setting Dialog Title
                 alertDialog.setTitle("Student Management");
@@ -125,7 +129,7 @@ public class ManagementActivity extends AppCompatActivity {
                 alertDialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        CustomDialogClass cdd = new CustomDialogClass(ManagementActivity.this, "hi", "hello", studentId);
+                        CustomDialogClass cdd = new CustomDialogClass(ManagementActivity.this, tempName, roll, tempId);
                         cdd.show();
                     }
                 });
@@ -136,7 +140,7 @@ public class ManagementActivity extends AppCompatActivity {
                         // Write your code here to invoke NO event
                         // dialog.cancel();
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("table");
-                        databaseReference.child("class").child(studentId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        databaseReference.child("class").child(tempId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getApplicationContext(), "Successfully deleted", Toast.LENGTH_SHORT).show();
@@ -158,8 +162,10 @@ public class ManagementActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddCustomClass a=new AddCustomClass(ManagementActivity.this);
-                a.show();
+                if (clickedClass != null) {
+                    AddCustomClass a = new AddCustomClass(ManagementActivity.this, clickedClass);
+                    a.show();
+                }
             }
         });
 

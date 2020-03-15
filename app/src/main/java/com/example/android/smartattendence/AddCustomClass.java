@@ -12,15 +12,16 @@ public class AddCustomClass extends Dialog implements android.view.View.OnClickL
 
     public Activity c;
     public Dialog d;
-    public String name,rollno;
+    public String name, rollno, className;
     public Button yes, no;
 
-    public AddCustomClass(Activity a) {
+    public AddCustomClass(Activity a, String className) {
         super(a);
         // TODO Auto-generated constructor stub
         this.c = a;
         this.name=name;
         this.rollno=rollno;
+        this.className = className;
     }
 
     @Override
@@ -41,7 +42,8 @@ public class AddCustomClass extends Dialog implements android.view.View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                c.finish();
+
+                dismiss();
                 break;
             case R.id.btn_no:
                 dismiss();
