@@ -226,6 +226,7 @@ public class MainMark extends AppCompatActivity implements Connector {
                         databaseReference.child("class").child(studentID.get(i)).child("attendance").child(pushID).setValue(attendance);
                     }
                     Toast.makeText(getApplicationContext(), "Marked attendance successfully!", Toast.LENGTH_LONG).show();
+                    finish();
                     submitProgress.setVisibility(View.GONE);
                 }
 
