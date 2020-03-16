@@ -1,7 +1,7 @@
 # Smart Attendance
 Smart attendance for schools and  colleges
 implementing CI
-commiting a change in repository
+commiting a change in repository 
 
  
 
