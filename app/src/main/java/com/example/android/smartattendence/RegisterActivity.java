@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +26,12 @@ public class RegisterActivity extends AppCompatActivity {
     EditText userEdit, passwordEdit;
     TextView textSignIn;
     Button btnSignUp;
-
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        progressBar = findViewById(R.id.progress_register);
         firebaseAuth = FirebaseAuth.getInstance();
         userEdit = findViewById(R.id.username);
         passwordEdit = findViewById(R.id.password);
@@ -38,20 +40,25 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 String email = userEdit.getText().toString().trim();
                 String password = passwordEdit.getText().toString().trim();
                 if (email.isEmpty()) {
                     userEdit.setError("Enter Email");
                     userEdit.requestFocus();
+                    progressBar.setVisibility(View.GONE);
                 } else if (password.isEmpty()) {
                     passwordEdit.setError("Enter Password");
                     passwordEdit.requestFocus();
+                    progressBar.setVisibility(View.GONE);
                 } else if (checkEmail(email)) {
                     userEdit.setError("Username is not valid!");
                     userEdit.requestFocus();
+                    progressBar.setVisibility(View.GONE);
                 } else if (checkPassword(password)) {
                     passwordEdit.setError("Minimum 8 Characters!");
                     passwordEdit.requestFocus();
+                    progressBar.setVisibility(View.GONE);
                 } else if (!(email.isEmpty() || password.isEmpty())) {
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -77,8 +84,10 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }
                     });
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });

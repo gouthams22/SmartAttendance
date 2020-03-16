@@ -66,7 +66,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_grid_on_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_add_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -76,7 +76,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="calendar_asset" />
+                            <entry key="outputName" value="add_asset" />
                             <entry key="sourceFile" value="C:\Users\gouth" />
                           </map>
                         </option>

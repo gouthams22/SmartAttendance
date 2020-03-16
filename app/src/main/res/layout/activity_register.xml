@@ -78,5 +78,12 @@
             android:text="Already Registered? Sign in here!"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
+
+        <ProgressBar
+            android:id="@+id/progress_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>
