@@ -87,6 +87,7 @@ public class MenuActivity extends AppCompatActivity {
             textView = findViewById(R.id.welcome_message);
             textView.setText("Welcome " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
         }
+        //hello
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
