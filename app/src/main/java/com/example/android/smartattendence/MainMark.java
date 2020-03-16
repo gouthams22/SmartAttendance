@@ -177,8 +177,10 @@ public class MainMark extends AppCompatActivity implements Connector {
                             if (jDataSnapshot.child("date").getValue(String.class).equals(tempDate)) {
                                 if (jDataSnapshot.child("period").getValue(String.class) != null)
                                     if (jDataSnapshot.child("period").getValue(String.class).equals("" + getPeriod(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)))) {
-                                        duplicate = true;
-                                        return;
+                                        if (iDataSnapshot.child("classname").getValue(String.class).equals(clickedClass)) {
+                                            duplicate = true;
+                                            return;
+                                        }
                                     }
                             }
                     }
