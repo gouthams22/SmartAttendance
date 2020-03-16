@@ -2,6 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkerGrey"
+    android:padding="10dp"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:textColorHint="@android:color/white"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
         android:paddingBottom="2dp">
 
         <EditText
@@ -22,6 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Student Name"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/white"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -39,8 +44,9 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:textColorHint="@android:color/white"
         android:paddingBottom="12dp">
 
         <EditText
@@ -48,6 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
+            android:textColor="@android:color/white"
             android:hint="Student Roll No"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -38,6 +39,7 @@ public class MainMark extends AppCompatActivity implements Connector {
     Button markButton;
     ProgressBar progressBar, submitProgress;
     TextView textView;
+    LinearLayout beginLayout, endLayout;
     boolean duplicate;
     private String clickedClass, clickedSubject;
 
@@ -45,11 +47,15 @@ public class MainMark extends AppCompatActivity implements Connector {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_mark);
+        beginLayout = findViewById(R.id.layout_begin);
+        endLayout = findViewById(R.id.layout_end);
+        beginLayout.setVisibility(View.INVISIBLE);
+        endLayout.setVisibility(View.INVISIBLE);
         textView = findViewById(R.id.date_text);
         textView.setText("Date : " + getCurrentDate());
         textView = findViewById(R.id.period_text);
         textView.setText("Period : " + (getPeriod(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) == -1 ? "Outside class hour" : getPeriod(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))));
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.progress_main);
         submitProgress = findViewById(R.id.submit_progress);
         markButton = findViewById(R.id.mark_button);
         markButton.setVisibility(View.GONE);
@@ -101,6 +107,8 @@ public class MainMark extends AppCompatActivity implements Connector {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 markButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                beginLayout.setVisibility(View.VISIBLE);
+                endLayout.setVisibility(View.VISIBLE);
                 className.clear();
                 for (DataSnapshot classSnapshot : dataSnapshot.child("class").getChildren()) {
                     if (!className.contains(classSnapshot.child("classname").getValue(String.class))) {
@@ -131,7 +139,9 @@ public class MainMark extends AppCompatActivity implements Connector {
                                     }
                                 }
                                 ListView listView = (ListView) findViewById(R.id.list1);
+                                ArrayList<String> duplicateRoll = new ArrayList<>(studentRoll);
                                 Collections.sort(studentRoll);
+                                studentID = sortAttendanceList(studentID, studentRoll, duplicateRoll);
                                 attendanceList = new ArrayList<String>();
                                 for (int i = 0; i < studentRoll.size(); i++)
                                     attendanceList.add("false");
@@ -219,6 +229,14 @@ public class MainMark extends AppCompatActivity implements Connector {
 
             }
         });
+    }
+
+    private ArrayList<String> sortAttendanceList(ArrayList<String> attendanceList, ArrayList<String> studentRoll, ArrayList<String> duplicateRoll) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (int i = 0; i < attendanceList.size(); i++) {
+            arrayList.add(attendanceList.get(duplicateRoll.indexOf(studentRoll.get(i))));
+        }
+        return arrayList;
     }
 
     @Override

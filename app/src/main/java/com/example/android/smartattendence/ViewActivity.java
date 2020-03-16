@@ -77,9 +77,6 @@ public class ViewActivity extends AppCompatActivity {
                             dateList.clear();
                             attendanceList.clear();
                             periodList.clear();
-                            dateList.add("Date");
-                            attendanceList.add("Attendence");
-                            periodList.add("Period");
                             for (DataSnapshot iSnapshot : dataSnapshot.child("class").child(key).child("attendance").getChildren()) {
                                 if (iSnapshot.child("subname").getValue(String.class).equals(editSubject.getText().toString().trim())) {
                                     Attendance attendance = iSnapshot.getValue(Attendance.class);

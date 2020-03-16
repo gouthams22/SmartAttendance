@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -97,22 +98,22 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                         className.clear();
                         for (DataSnapshot i : dataSnapshot.child("class").getChildren()) {
                             for (DataSnapshot j : i.child("attendance").getChildren()) {
-                                if (!j.child("tid").getValue(String.class).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                    break;
-                                }
-                                if (j.child("date").getValue(String.class) != null)
-                                    if (j.child("date").getValue(String.class).equals(editDate.getText().toString().trim())) {
-                                        if (j.child("period").getValue(String.class).equals(editPeriod.getText().toString().trim())) {
-                                            if (!check) {
-                                                check = true;
-                                                if (!className.contains(i.child("classname").getValue(String.class))) {
-                                                    className.add(i.child("classname").getValue(String.class));
-                                                    currentSubject = j.child("subname").getValue(String.class);
-                                                    ((TextView) findViewById(R.id.current_subject)).setText(currentSubject);
+                                String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                if (j.child("tid").getValue(String.class).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    if (j.child("date").getValue(String.class) != null)
+                                        if (j.child("date").getValue(String.class).equals(editDate.getText().toString().trim())) {
+                                            if (j.child("period").getValue(String.class).equals(editPeriod.getText().toString().trim())) {
+                                                if (!check) {
+                                                    check = true;
+                                                    if (!className.contains(i.child("classname").getValue(String.class))) {
+                                                        className.add(i.child("classname").getValue(String.class));
+                                                        currentSubject = j.child("subname").getValue(String.class);
+                                                        ((TextView) findViewById(R.id.current_subject)).setText(currentSubject);
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
+                                }
                             }
                         }
                         if (check) {
@@ -125,9 +126,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                                 if (iSnapshot.child("classname").getValue(String.class) != null)
                                     if (iSnapshot.child("classname").getValue(String.class).equals(className.get(0))) {
                                         for (DataSnapshot jSnapshot : iSnapshot.child("attendance").getChildren()) {
-                                            if (!jSnapshot.child("tid").getValue(String.class).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                                break;
-                                            }
+                                            if (jSnapshot.child("tid").getValue(String.class).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                             if (jSnapshot.child("date").getValue(String.class) != null)
                                                 if (jSnapshot.child("date").getValue(String.class).equals(editDate.getText().toString())) {
                                                     if (jSnapshot.child("period").getValue(String.class).equals(editPeriod.getText().toString())) {
@@ -137,6 +136,7 @@ public class MainUpdate extends AppCompatActivity implements Connector {
                                                         attendanceList.add(jSnapshot.child("present").getValue(String.class));
                                                     }
                                                 }
+                                            }
                                         }
                                     }
                             }

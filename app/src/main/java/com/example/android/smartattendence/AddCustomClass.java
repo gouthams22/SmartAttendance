@@ -21,7 +21,6 @@ public class AddCustomClass extends Dialog implements android.view.View.OnClickL
 
     public AddCustomClass(Activity a, String className) {
         super(a);
-        // TODO Auto-generated constructor stub
         this.c = a;
         this.name = name;
         this.rollno = rollno;
