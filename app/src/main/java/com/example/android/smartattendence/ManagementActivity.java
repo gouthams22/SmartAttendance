@@ -122,7 +122,7 @@ public class ManagementActivity extends AppCompatActivity {
                 // Setting Dialog Title
                 alertDialog.setTitle("Student Management");
                 // Setting Dialog Message
-                alertDialog.setMessage("Do you want to update or delete " + studentRoll.get(position) + " ?");
+                alertDialog.setMessage("Roll number: " + studentRoll.get(position) + " \nName: " + studentName.get(position));
                 // Setting Icon to Dialog
 //                alertDialog.setIcon(R.drawable.ic_launcher_background);
                 // Setting Positive "Yes" Button
